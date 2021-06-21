@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+#bluedit - the back page of the internet
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About
+
+Hello and welcome to Bluedit! Bluedit is a clone of the popular site Reddit and was built purely for fun and as a learning experience. This app was made entirely by me (AnonymousAAArdvark) , though I took inspiration and art from Reddit, as well as other projects on Github. I do not intend this to be an alternative to Reddit. However, feel free to create an account and upvote/create some posts!
+
+## Dev dependencies
+
+- Axios - https://www.npmjs.com/package/axios
+- date-fns - https://date-fns.org/
+- Firebase - https://firebase.google.com/
+- Reactjs - https://react-icons.github.io/react-icons/
+- React-Icons - https://react-icons.github.io/react-icons/
+- React-Loader-Spinner - https://www.npmjs.com/package/react-loader-spinner
+- React-Router - https://reactrouter.com/
+- Redux-Thunk - https://www.npmjs.com/package/redux-thunk
+- Redux - https://redux.js.org/
+- Styled-Components - https://styled-components.com/
+- TypeScript - https://www.typescriptlang.org/
+- uuid - https://www.npmjs.com/package/uuid/
 
 ## Available Scripts
 
