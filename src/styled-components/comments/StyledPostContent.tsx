@@ -97,6 +97,7 @@ const Title = styled.h3<{ link?: boolean }>`
   font-weight: 400;
   max-width: ${({ link }) => link ? "calc(100% - 11rem)" : "inherit"};
   overflow: hidden;
+  word-wrap: anywhere;
 `;
 
 const Desc = styled.h4`
@@ -104,6 +105,7 @@ const Desc = styled.h4`
   margin: .7rem .5rem 0 .5rem;
   font-weight: 400;
   line-height: 1.4rem;
+  word-wrap: anywhere;
 `;
 
 const ActionsWrapper = styled.div`
