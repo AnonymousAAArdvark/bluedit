@@ -1,4 +1,5 @@
 # bluedit - the back page of the internet
+[![Netlify Status](https://api.netlify.com/api/v1/badges/87dc5aa7-c809-474d-add4-6fdb5b2d7f21/deploy-status)](https://app.netlify.com/sites/blueddit/deploys)
 
 ## Live Preview
 
