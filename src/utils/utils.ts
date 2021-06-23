@@ -34,7 +34,7 @@ export const Comment = (
   } = {}) => ({ input, timestamp, username, points, replies, id, depth, deleted }
 );
 
-export const setCommentAsDeleted = (object: any, targetId: number) => {
+export const setCommentAsDeleted = (object: any, targetId: string) => {
   if(object.id === targetId) {
     object.deleted = true;
   }
@@ -47,7 +47,7 @@ export const setCommentAsDeleted = (object: any, targetId: number) => {
   return object.replies;
 };
 
-export const withNewCommentVote = (object: any, targetId: number, newVoteCount: number) => {
+export const withNewCommentVote = (object: any, targetId: string, newVoteCount: number) => {
   if(object.id === targetId) {
     object.points = newVoteCount;
   }
@@ -60,7 +60,7 @@ export const withNewCommentVote = (object: any, targetId: number, newVoteCount: 
   return object;
 };
 
-export const insertReply =  (object: any, targetId: number, newReply: any) => {
+export const insertReply = (object: any, targetId: string, newReply: any) => {
   if(object.id === targetId) {
     object.replies.push(newReply);
   }

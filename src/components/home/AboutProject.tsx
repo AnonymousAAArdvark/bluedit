@@ -8,9 +8,11 @@ const AboutProject = () => {
       <Title>About Project</Title>
       <Desc>
         Hello and welcome to Bluedit! Bluedit is a clone of the popular site
-        <a href="https://www.reddit.com/"> Reddit </a>
+        <a href="https://www.reddit.com/" target="_blank" rel="noopener noreferrer"> Reddit </a>
         and was built purely for fun and as a learning experience. This app was made entirely by me
-        (<a href="https://github.com/AnonymousAAArdvark/">AnonymousAAArdvark</a>)
+        (<a href="https://github.com/AnonymousAAArdvark/" target="_blank" rel="noopener noreferrer">
+        AnonymousAAArdvark
+        </a>)
         , though I took inspiration and art from Reddit, as well as other projects on Github.
         I do not intend this to be an alternative to Reddit. However,
         feel free to create an account and upvote/create some posts!

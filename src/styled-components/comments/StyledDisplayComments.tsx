@@ -66,6 +66,7 @@ const ContentWrapper = styled.div`
 
 const Reply = styled.p`
   margin: 0 .5rem;
+  word-wrap: anywhere;
 `;
 
 const BottomVoteWrapper = styled.div`
@@ -73,35 +74,48 @@ const BottomVoteWrapper = styled.div`
   align-items: center;
 `;
 
-const UpvoteContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;  
-  border-radius: 5px; 
-  color: ${({ theme }) => theme.colors.vote};
-  &:hover {
-    background-color: #e1e2e4;
-    color: ${({ theme }) => theme.colors.mainUpvote};
-  }
-`;
-
-const NumUpvotes = styled.h5`
-  margin: .3rem;
-  font-weight: 600;
-`;
-
-const DownvoteContainer = styled.div`
+const UpvoteContainer = styled.div<{ userVote: string | null }>`
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   border-radius: 5px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.vote};
+  &:hover {
+    background-color: #e1e2e4;
+    color: ${({ theme }) => theme.colors.mainUpvote};
+  }
+  ${({ userVote }) => userVote === "up" && css`
+    color: ${({ theme }) => theme.colors.mainUpvote};
+  `}
+`;
+
+const NumUpvotes = styled.h5<{ userVote: string | null }>`
+  margin: .3rem;
+  ${({ userVote }) => userVote === "up" && css`
+    color: ${({ theme }) => theme.colors.mainUpvote};
+  `}
+  ${({ userVote }) => userVote === "down" && css`
+    color: ${({ theme }) => theme.colors.altDownvote};
+  `}
+`;
+
+const DownvoteContainer = styled.div<{ userVote: string | null }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
   color: ${({ theme }) => theme.colors.vote};
   &:hover {
     background-color: #e1e2e4;
     color: ${({ theme }) => theme.colors.altDownvote};
   }
+  ${({ userVote }) => userVote === "down" && css`
+    color: ${({ theme }) => theme.colors.altDownvote};
+  `}
 `;
 
 const ActionsWrapper = styled.div`

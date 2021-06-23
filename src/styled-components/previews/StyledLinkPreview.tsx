@@ -44,6 +44,7 @@ const PreviewImage = styled.div<{ img: string }>`
     background-image: url(${img});
     background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
   `};
   svg {
     &:first-of-type {

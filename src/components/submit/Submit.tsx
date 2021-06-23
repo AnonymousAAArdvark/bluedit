@@ -34,14 +34,17 @@ const Submit = ({ posts, setPosts }: SubmitProps) => {
     const postID = uuidv4();
 
     const getPreviewImage = async () => {
-      return await axios
-        .get(`https://api.linkpreview.net/?key=${LINKPREVIEW_API_KEY}&q=${postLink}`)
-        .then((res) => res.data.image)
-        .catch((error) => console.error(error));
+      try {
+        const res = await axios.get(`https://api.linkpreview.net/?key=${LINKPREVIEW_API_KEY}&q=${postLink}`);
+        return res.data.image;
+      }
+      catch(error) {
+        console.error(error);
+      }
     };
 
     type submitPostTypes = {
-      img: string | null,
+      img: any,
       media: any,
     };
 
@@ -81,7 +84,7 @@ const Submit = ({ posts, setPosts }: SubmitProps) => {
         },
         ...posts,
       ]);
-      firebase
+      await firebase
         .firestore()
         .collection("users")
         .doc(authState.user!.uid)
@@ -129,7 +132,7 @@ const Submit = ({ posts, setPosts }: SubmitProps) => {
     if(authState.user) {
       if(postTypeState.type === "LINK") {
         const img = await getPreviewImage();
-        submitPost(img);
+        submitPost({ img, media: null });
       }
       else {
         submitPost({ img: null, media });

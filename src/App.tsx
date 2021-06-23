@@ -23,32 +23,34 @@ const App = () => {
 
   useEffect(() => {
     const newPosts: any[] = [];
-    const subscribe = () => {
-      firebase
-        .firestore()
-        .collection("posts")
-        .orderBy(
-          SORT_OPTIONS[feedSortState.sort].column,
-          SORT_OPTIONS[feedSortState.sort].direction,
-        )
-        .orderBy(
-          SORT_OPTIONS[feedSortState.sort].column2,
-          SORT_OPTIONS[feedSortState.sort].direction2,
-        )
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            const post = doc.data();
-            newPosts.unshift({ id: doc.id, ...post });
-          });
-          setPosts(newPosts);
-        })
-        .catch((error) => console.error(error));
+
+    const subscribe = async () => {
+      try {
+        const querySnapshot = await firebase
+          .firestore()
+          .collection("posts")
+          .orderBy(
+            SORT_OPTIONS[feedSortState.sort].column,
+            SORT_OPTIONS[feedSortState.sort].direction,
+          )
+          .orderBy(
+            SORT_OPTIONS[feedSortState.sort].column2,
+            SORT_OPTIONS[feedSortState.sort].direction2,
+          )
+          .get()
+
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          newPosts.unshift({id: doc.id, ...post});
+        });
+      }
+      catch(error) {
+        console.error(error);
+      }
     };
 
-    subscribe();
-
-    return () => subscribe();
+    subscribe().then(() => {});
+    setPosts(newPosts);
   }, [feedSortState.sort]);
 
   useEffect(() => {
@@ -58,19 +60,7 @@ const App = () => {
         const userRef = await db.collection("users").doc(user.uid).get();
         const userData = userRef.data();
         dispatch({type: "USER_UPDATED", payload: userData});
-        // firebase.firestore()
-        //   .collection("users")
-        //   .doc(user.uid)
-        //   .get()
-        //   .then((res) => {
-        //     const data = res.data();
-        //     dispatch({ type: "USER_UPDATED", payload: data });
-        //   })
-        //   .catch((error) => console.error(error));
       }
-      // else {
-      //   dispatch({type: "USER_UPDATED", payload: null});
-      // }
     });
   }, []);
 
@@ -110,20 +100,6 @@ const App = () => {
         }
       }
 
-      // if(homeOrComments === "home") {
-      //   const newPosts = posts.map((post: any) => {
-      //     if(post.id === id) {
-      //       post.vote = newVoteCount;
-      //     }
-      //     return post;
-      //   });
-      //   setPosts(newPosts);
-      // }
-      // else {
-      //   const updatedPostData = { ...postData };
-      //   updatedPostData.vote = newVoteCount;
-      //   setPostData(updatedPostData);
-      // }
       const newPosts = posts.map((post: any) => {
         if(post.id === id) {
           post.vote = newVoteCount;
@@ -162,6 +138,26 @@ const App = () => {
     }
   }
 
+  const deletePost = (id: string) => {
+    const response = window.confirm("Are you sure you want to delete this post? This cannot be undone.");
+    if(response) {
+      const withPostDeleted = posts.map((p: { id: string; deleted: boolean; }) => {
+        if(p.id === id) {
+          p.deleted = true;
+        }
+        return p;
+      });
+
+      setPosts(withPostDeleted);
+
+      firebase
+        .firestore()
+        .collection("posts")
+        .doc(id)
+        .update({ deleted: true })
+        .catch((error) => console.error(error));
+    }
+  };
 
   useEffect(() => {
     if(modalState.status !== "") {
@@ -184,6 +180,7 @@ const App = () => {
               posts={posts}
               viewPostComments={viewPostComments}
               castPostVote={castPostVote}
+              deletePost={deletePost}
             />
           )} />
           <Route path="/submit" exact component={() => (
@@ -203,6 +200,7 @@ const App = () => {
                castPostVote={castPostVote}
                posts={posts}
                setPosts={setPosts}
+               deletePost={deletePost}
                id={routeProps.match.params.id}
              />
             )}

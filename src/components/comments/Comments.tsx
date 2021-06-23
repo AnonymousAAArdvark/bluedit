@@ -11,20 +11,31 @@ type CommentsProps = {
   castPostVote: any,
   posts: any[],
   setPosts: any,
-  id: string
+  id: string,
+  deletePost: any,
 };
 
 const tempPost = {
   id: 1,
   title: "",
-  username: "",
+  username: "user",
   vote: 0,
-  timestamp: "",
+  timestamp: Date.now(),
   postText: "",
   replies: [],
 };
 
-const Comments = ({ postData, viewPostComments, setPostData, castPostVote, posts, setPosts, id } : CommentsProps) => {
+const Comments =
+  ({
+     postData,
+     viewPostComments,
+     setPostData,
+     castPostVote,
+     posts,
+     setPosts,
+     id,
+     deletePost,
+  } : CommentsProps) => {
   useEffect(() => {
     if(!postData) {
       viewPostComments(id);
@@ -41,6 +52,7 @@ const Comments = ({ postData, viewPostComments, setPostData, castPostVote, posts
           castPostVote={castPostVote}
           posts={posts}
           setPosts={setPosts}
+          deletePost={deletePost}
         />
       </PostContainer>
       <SideBarContainer>

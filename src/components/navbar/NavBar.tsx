@@ -37,7 +37,7 @@ const NavBar = ({ viewPostComments, posts }: NavBarProps) => {
     setSearchResultsOpen(true);
     setSearchInput(input);
 
-    const results = filterPosts(posts, searchInput);
+    const results = filterPosts(posts, input);
     setSearchResults(results);
   };
 
@@ -77,7 +77,7 @@ const NavBar = ({ viewPostComments, posts }: NavBarProps) => {
           onChange={(e) => handleSearchInput(e.target.value)}
         />
         {searchResultsOpen &&
-          <SearchResultsDropdown ref={searchResultRef} loggedIn={false}>
+          <SearchResultsDropdown ref={searchResultRef} loggedIn={!!authState.user}>
             {searchInput.length > 0 && searchResults.length === 0 ? (
               <ResultCard key="no-results">
                 <ResultTitle>No results found...</ResultTitle>
@@ -95,7 +95,7 @@ const NavBar = ({ viewPostComments, posts }: NavBarProps) => {
                       onClick={() => viewSearchResult(post.id, url)}
                     >
                       <ResultTitle>{post.title}</ResultTitle>
-                      <ResultContent>{post.postText}</ResultContent>
+                      <ResultContent>{post.postText === "" ? "..." : post.postText}</ResultContent>
                     </ResultCard>
                   )
                 })}

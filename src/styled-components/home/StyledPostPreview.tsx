@@ -108,12 +108,23 @@ const Title = styled.h3<{ link?: boolean }>`
 `;
 
 const Desc = styled.h4`
+  position: relative;
   font-size: .9rem;
   margin: .7rem .5rem 0 .5rem;
   font-weight: 400;
   line-height: 1.4rem;
   max-height: 17.5rem;
   overflow: hidden;
+  
+  &:before{
+    content:'';
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    background:linear-gradient(transparent 7rem, white);
+  }
 `;
 
 const ActionsWrapper = styled.div`
@@ -155,6 +166,15 @@ const ShareBtn = styled(ActionBtn)`
   }
 `;
 
+const DeleteBtn = styled(ActionBtn)`
+  padding-left: .3rem;
+  margin-left: .3rem;
+  svg {
+    font-size: 1.4rem;
+    margin-right: .3rem;
+  }
+`;
+
 export { ShareBtn, Title, CommentsBtn, Info, Desc, ActionsWrapper,
          ContentWrapper, PostPreviewWrapper, DownvoteContainer, UpvoteContainer,
-         VoteWrapper, NumUpvotes, BottomVoteWrapper };
+         VoteWrapper, NumUpvotes, BottomVoteWrapper, DeleteBtn };

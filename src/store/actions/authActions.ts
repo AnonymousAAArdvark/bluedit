@@ -45,15 +45,13 @@ export const logInExistingUser = (email: string, password: string) => {
 };
 
 export const logout = () => {
-  return (dispatch: Dispatch) => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        dispatch({ type: "LOGOUT_SUCCESS" });
-      })
-      .catch((error) => {
-        dispatch({ type: "LOGOUT_ERROR", payload: error });
-      });
+  return async (dispatch: Dispatch) => {
+    try {
+      await firebase.auth().signOut();
+      dispatch({type: "LOGOUT_SUCCESS"});
+    }
+    catch(error) {
+      dispatch({type: "LOGOUT_ERROR", payload: error});
+    }
   };
 };

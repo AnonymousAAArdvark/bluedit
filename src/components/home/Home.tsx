@@ -11,9 +11,10 @@ type HomeProps = {
   posts: any[],
   viewPostComments: any,
   castPostVote: any,
+  deletePost: any,
 }
 
-const Home = ({ posts, viewPostComments, castPostVote } : HomeProps) => {
+const Home = ({ posts, viewPostComments, castPostVote, deletePost } : HomeProps) => {
   const authState = useSelector((state: RootState) => state.auth);
 
   return (
@@ -34,6 +35,7 @@ const Home = ({ posts, viewPostComments, castPostVote } : HomeProps) => {
               castPostVote={castPostVote}
               id={post.id}
               url={url}
+              deletePost={deletePost}
             />
           )
         })}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../types/state-types";
-import { BiUpvote, BiDownvote, VscComment, BsArrow90DegRight } from "react-icons/all";
+import { BiUpvote, BiDownvote, VscComment, BsArrow90DegRight, FiTrash } from "react-icons/all";
 import { ShareBtn, Title, CommentsBtn, Info, Desc, ActionsWrapper,
   ContentWrapper, PostPreviewWrapper, DownvoteContainer, UpvoteContainer,
-  VoteWrapper, NumUpvotes, BottomVoteWrapper } from "../../styled-components/home/StyledPostPreview";
+  VoteWrapper, NumUpvotes, BottomVoteWrapper, DeleteBtn } from "../../styled-components/home/StyledPostPreview";
 import MediaPreview from "../previews/MediaPreview";
 import LinkPreview from "../previews/LinkPreview";
 import { countReplies } from "../../utils/utils";
@@ -20,9 +20,21 @@ type PostPreviewTypes = {
   castPostVote: any,
   id: string,
   url: string,
-}
+  deletePost: any,
+};
 
-const PostPreview = ({ viewPostComments, username, timestamp, post, vote, castPostVote, id, url }: PostPreviewTypes) => {
+const PostPreview =
+  ({
+     viewPostComments,
+     username,
+     timestamp,
+     post,
+     vote,
+     castPostVote,
+     id,
+     url,
+     deletePost,
+  }: PostPreviewTypes) => {
   const [userVote, setUserVote] = useState(null);
   const authState = useSelector((state: RootState) => state.auth);
   const commentCount = post ? countReplies(post) : null;
@@ -110,6 +122,14 @@ const PostPreview = ({ viewPostComments, username, timestamp, post, vote, castPo
             <BsArrow90DegRight />
             Share
           </ShareBtn>
+          {authState.user && post.username === authState.user!.username && !post.deleted &&
+          <DeleteBtn onClick={(e) => {
+            e.stopPropagation();
+            deletePost(post.id);
+          }}>
+            <FiTrash/>
+            Delete
+          </DeleteBtn>}
         </ActionsWrapper>
       </ContentWrapper>
     </PostPreviewWrapper>

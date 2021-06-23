@@ -150,6 +150,15 @@ const ShareBtn = styled(ActionBtn)`
   }
 `;
 
+const DeleteBtn = styled(ActionBtn)`
+  padding-left: .3rem;
+  margin-left: .3rem;
+  svg {
+    font-size: 1.4rem;
+    margin-right: .3rem;
+  }
+`;
+
 const AuthBtn = styled.button`
   padding: .5rem 1rem;
   font-weight: 600;
@@ -358,4 +367,4 @@ export { Title, Info, ContentWrapper, ActionsWrapper, CommentsWrapper, SelectSor
          VoteWrapper, NumUpvotes, UpvoteContainer, PostPreviewWrapper, DownvoteContainer, CommentsSortContainer,
          Desc, CommentsBtn, ShareBtn, SignUpBtn, LoginBtn, CommentTextarea, CommentSection, CommentPadding,
          CreateCommentWrapper, InputCommentContainer, LoginPrompt, PromptTitle, SortOptionsDropDown, CurrSortOption,
-         SortOption, PostContentWrapper, NoComments, NoCommentsDesc, NoCommentsTitle };
+         SortOption, PostContentWrapper, NoComments, NoCommentsDesc, NoCommentsTitle, DeleteBtn };

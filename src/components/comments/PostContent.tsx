@@ -5,18 +5,18 @@ import { v4 as uuidv4 } from "uuid";
 import { Comment, countReplies } from "../../utils/utils";
 import firebase from "../../firebase";
 import "firebase/firestore";
-import { BiUpvote, BiDownvote, VscComment, BsArrow90DegRight, FaCaretDown, IoMdChatbubbles } from "react-icons/all";
+import { BiUpvote, BiDownvote, VscComment, BsArrow90DegRight, FaCaretDown, IoMdChatbubbles, FiTrash } from "react-icons/all";
 import { Title, Info, ContentWrapper, ActionsWrapper, CommentsWrapper, SelectSort, CommentAs, CommentBtn,
          VoteWrapper, NumUpvotes, UpvoteContainer, PostPreviewWrapper, DownvoteContainer, CommentsSortContainer,
          Desc, CommentsBtn, ShareBtn, SignUpBtn, LoginBtn, CommentTextarea, CommentSection, CommentPadding,
          CreateCommentWrapper, InputCommentContainer, LoginPrompt, PromptTitle, SortOptionsDropDown, CurrSortOption,
-         SortOption, PostContentWrapper, NoCommentsDesc, NoCommentsTitle, NoComments }
+         SortOption, PostContentWrapper, NoCommentsDesc, NoCommentsTitle, NoComments, DeleteBtn }
   from "../../styled-components/comments/StyledPostContent";
 import MediaPreview from "../previews/MediaPreview";
 import LinkPreview from "../previews/LinkPreview";
 import useOutSideAlerter from "../../utils/useOutSideAlerter";
 import DisplayComments from "./DisplayComments";
-import {formatDistanceToNow} from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 
 type PostContentProps = {
   post: any,
@@ -25,9 +25,19 @@ type PostContentProps = {
   castPostVote: any,
   posts: any[],
   setPosts: any,
+  deletePost: any,
 };
 
-const PostContent = ({ post, viewPostComments, setPostData, castPostVote, posts, setPosts }: PostContentProps) => {
+const PostContent =
+  ({
+     post,
+     viewPostComments,
+     setPostData,
+     castPostVote,
+     posts,
+     setPosts,
+     deletePost,
+  }: PostContentProps) => {
   const [commentInput, setCommentInput] = useState("");
   const [sortOptionsVisible, setSortOptionsVisible] = useState(false);
   const [commentSortOption, setCommentSortOption] = useState("top");
@@ -50,52 +60,33 @@ const PostContent = ({ post, viewPostComments, setPostData, castPostVote, posts,
     authState.user !== null && checkForUserVote();
   }, [userVote, setUserVote, post, authState.user?.postVotes]);
 
-  const submitTopLevelComment = () => {
-    if(commentInput === "") return;
-    let newComment = Comment(
-      { input: commentInput, username: authState.user!.username }
-    );
-    firebase
-      .firestore()
-      .collection("posts")
-      .doc(post.id)
-      .update({
-        replies: [...post.replies, newComment],
-      })
-      .then(() => {
-        setPostData({
-          ...post,
+  const submitTopLevelComment = async () => {
+    try {
+      if (commentInput === "") return;
+      let newComment = Comment(
+        {input: commentInput, username: authState.user!.username}
+      );
+      setCommentInput("");
+      await firebase
+        .firestore()
+        .collection("posts")
+        .doc(post.id)
+        .update({
           replies: [...post.replies, newComment],
-        });
-      })
-      .catch((error) => console.log(error));
+        })
+      setPostData({
+        ...post,
+        replies: [...post.replies, newComment],
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const commentSort: any = {
     top: (a: any, b: any) => (a.points <= b.points ? 1 : -1),
     new: (a: any, b: any) => (a.timestamp <= b.timestamp ? 1 : -1),
     old: (a: any, b: any) => (a.timestamp >= b.timestamp ? 1 : -1),
-  };
-
-  const deletePost = () => {
-    const response = window.confirm("Are you sure you want to delete this post? This cannot be undone.");
-    if(response) {
-      const withPostDeleted = posts.map((p) => {
-        if(p.id === post.id) {
-          p.deleted = true;
-        }
-        return p;
-      });
-
-      setPosts(withPostDeleted);
-
-      firebase
-        .firestore()
-        .collection("posts")
-        .doc(post.id)
-        .update({ deleted: true })
-        .catch((error) => console.log(error));
-    }
   };
 
   return (
@@ -140,7 +131,7 @@ const PostContent = ({ post, viewPostComments, setPostData, castPostVote, posts,
           {post.postType === "LINK" && !post.deleted && (
             <>
               <Title link>{post.title}</Title>
-              <LinkPreview url={post.postLink} preview={post.postPreview} />
+              <LinkPreview url={post.postLink} preview={post.linkPreview} />
             </>
           )}
           {post.postType === "MEDIA" && !post.deleted && (
@@ -158,6 +149,11 @@ const PostContent = ({ post, viewPostComments, setPostData, castPostVote, posts,
               <BsArrow90DegRight />
               Share
             </ShareBtn>
+            {authState.user && post.username === authState.user!.username && !post.deleted &&
+            <DeleteBtn onClick={() => deletePost(post.id)}>
+              <FiTrash/>
+              Delete
+            </DeleteBtn>}
           </ActionsWrapper>
         </ContentWrapper>
       </PostPreviewWrapper>
@@ -173,6 +169,7 @@ const PostContent = ({ post, viewPostComments, setPostData, castPostVote, posts,
               <CommentTextarea
                 placeholder="What are your thoughts?"
                 value={commentInput}
+                maxLength={1000}
                 onChange={(e) => setCommentInput(e.target.value)}
               />
               <CommentBtn
@@ -220,15 +217,15 @@ const PostContent = ({ post, viewPostComments, setPostData, castPostVote, posts,
               .sort(commentSort[commentSortOption])
               .map((comment: any) => {
                 return (
-                  <>
+                  <div key={uuidv4()}>
                     <CommentPadding />
                     <DisplayComments
                       comment={comment}
-                      key={uuidv4()}
                       sortMethod={commentSort[commentSortOption]}
                       post={post}
+                      setPostData={setPostData}
                     />
-                  </>
+                  </div>
                 );
               })
             }
