@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RootState } from "../../types/state-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { Comment, countReplies } from "../../utils/utils";
 import firebase from "../../firebase";
@@ -20,22 +20,16 @@ import { formatDistanceToNow } from "date-fns";
 
 type PostContentProps = {
   post: any,
-  viewPostComments: any,
   setPostData: any,
   castPostVote: any,
-  posts: any[],
-  setPosts: any,
   deletePost: any,
 };
 
 const PostContent =
   ({
      post,
-     viewPostComments,
      setPostData,
      castPostVote,
-     posts,
-     setPosts,
      deletePost,
   }: PostContentProps) => {
   const [commentInput, setCommentInput] = useState("");
@@ -58,7 +52,7 @@ const PostContent =
       }
     };
     authState.user !== null && checkForUserVote();
-  }, [userVote, setUserVote, post, authState.user?.postVotes]);
+  }, [userVote, setUserVote, post, authState.user]);
 
   const submitTopLevelComment = async () => {
     try {

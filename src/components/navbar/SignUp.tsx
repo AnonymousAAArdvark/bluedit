@@ -3,7 +3,6 @@ import { IoMdClose } from 'react-icons/io';
 import { RootState } from "../../types/state-types";
 import { useDispatch, useSelector } from "react-redux";
 import { createUserAccount } from "../../store/actions/authActions";
-import firebase from "../../firebase";
 import "firebase/firestore";
 import Loader from "react-loader-spinner";
 import { Background, Modal, Art, Content, Title, Info, Action,
@@ -35,7 +34,7 @@ const Signup = () => {
     if(authState.user) {
       dispatch({ type: "" });
     }
-  }, [authState.user]);
+  }, [authState.user, dispatch]);
 
   return (
     <Background>

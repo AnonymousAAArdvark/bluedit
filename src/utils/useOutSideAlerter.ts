@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 const useOutSideAlerter = (ref: any, setVisible: any, ref2: any=null) => {
   useEffect(() => {
@@ -15,7 +15,7 @@ const useOutSideAlerter = (ref: any, setVisible: any, ref2: any=null) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [ref, ref2, setVisible]);
 }
 
 export default useOutSideAlerter;

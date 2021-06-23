@@ -32,7 +32,7 @@ const Login = () => {
     if(authState.user) {
       dispatch({ type: "" });
     }
-  }, [authState.user]);
+  }, [authState.user, dispatch]);
 
   return (
     <Background>

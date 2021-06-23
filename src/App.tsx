@@ -62,7 +62,7 @@ const App = () => {
         dispatch({type: "USER_UPDATED", payload: userData});
       }
     });
-  }, []);
+  }, [dispatch]);
 
   const viewPostComments = (id: string) => {
     const post = posts.filter((post: any) => post.id === id);

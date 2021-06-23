@@ -62,8 +62,8 @@ const NavBar = ({ viewPostComments, posts }: NavBarProps) => {
     <NavContainer>
       <Link to="/">
         <LogoContainer>
-          <IconImg src={icon} alt="icon" />
-          <LogoImg src={logo} alt="logo" />
+          <IconImg src={icon} />
+          <LogoImg src={logo} />
         </LogoContainer>
       </Link>
       <SearchContainer>
@@ -124,7 +124,7 @@ const NavBar = ({ viewPostComments, posts }: NavBarProps) => {
             <FaRegUser />
           ) : (
             <UserContainer>
-              <img src={profile} alt="profile picture" />
+              <img src={profile} alt="user profile" />
               <p>{authState.user!.username}</p>
             </UserContainer>
           )}

@@ -2,14 +2,14 @@ import React from "react";
 import { FiExternalLink } from "react-icons/all";
 import {Img, Vid, ImgContainer, LinkContainer, VidContainer } from "../../styled-components/previews/StyledMediaPreview";
 
-type MediaPreview = {
+type MediaPreviewProps = {
   media: {
     mediaType: string,
     url: string,
   },
 };
 
-const MediaPreview = ({ media }: MediaPreview) => {
+const MediaPreview = ({ media }: MediaPreviewProps) => {
   const shortenedUrl =
     media &&
     media.url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '').split('/')[0];

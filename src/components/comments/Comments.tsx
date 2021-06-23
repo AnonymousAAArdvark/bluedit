@@ -47,11 +47,8 @@ const Comments =
       <PostContainer>
         <PostContent
           post={postData ? postData : tempPost}
-          viewPostComments={viewPostComments}
           setPostData={setPostData}
           castPostVote={castPostVote}
-          posts={posts}
-          setPosts={setPosts}
           deletePost={deletePost}
         />
       </PostContainer>

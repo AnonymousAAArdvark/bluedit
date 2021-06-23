@@ -52,7 +52,7 @@ const DisplayComments = ({ comment, sortMethod, post, setPostData }: DisplayComm
       }
     };
     authState.user !== null && checkForUserVote();
-  }, [userVote, setUserVote, comment.id, authState.user?.commentVotes]);
+  }, [userVote, setUserVote, comment.id, authState.user]);
 
   const submitReply = async () => {
     try {

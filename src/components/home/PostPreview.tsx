@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../types/state-types";
 import { BiUpvote, BiDownvote, VscComment, BsArrow90DegRight, FiTrash } from "react-icons/all";
@@ -47,7 +47,7 @@ const PostPreview =
       }
     };
     authState.user !== null && checkForUserVote();
-  }, [userVote, setUserVote, post, authState.user?.postVotes]);
+  }, [userVote, setUserVote, post, authState.user]);
 
   const handleClick = (id: string, url: string) => {
     viewPostComments(id);
