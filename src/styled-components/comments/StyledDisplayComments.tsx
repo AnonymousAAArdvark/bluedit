@@ -173,6 +173,8 @@ const CommentTextarea = styled.textarea`
   font-weight: 300;
   font-size: 1rem;
   font-family: "Source Sans Pro", sans-serif;
+  resize: vertical;
+  min-height: 8rem;
 `;
 
 const BtnsWrapper = styled.div`
