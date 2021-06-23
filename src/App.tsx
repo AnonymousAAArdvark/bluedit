@@ -23,34 +23,32 @@ const App = () => {
 
   useEffect(() => {
     const newPosts: any[] = [];
-
-    const subscribe = async () => {
-      try {
-        const querySnapshot = await firebase
-          .firestore()
-          .collection("posts")
-          .orderBy(
-            SORT_OPTIONS[feedSortState.sort].column,
-            SORT_OPTIONS[feedSortState.sort].direction,
-          )
-          .orderBy(
-            SORT_OPTIONS[feedSortState.sort].column2,
-            SORT_OPTIONS[feedSortState.sort].direction2,
-          )
-          .get()
-
-        querySnapshot.forEach((doc) => {
-          const post = doc.data();
-          newPosts.unshift({id: doc.id, ...post});
-        });
-      }
-      catch(error) {
-        console.error(error);
-      }
+    const subscribe = () => {
+      firebase
+        .firestore()
+        .collection("posts")
+        .orderBy(
+          SORT_OPTIONS[feedSortState.sort].column,
+          SORT_OPTIONS[feedSortState.sort].direction,
+        )
+        .orderBy(
+          SORT_OPTIONS[feedSortState.sort].column2,
+          SORT_OPTIONS[feedSortState.sort].direction2,
+        )
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const post = doc.data();
+            newPosts.unshift({ id: doc.id, ...post });
+          });
+          setPosts(newPosts);
+        })
+        .catch((error) => console.error(error));
     };
 
-    subscribe().then(() => {});
-    setPosts(newPosts);
+    subscribe();
+
+    return () => subscribe();
   }, [feedSortState.sort]);
 
   useEffect(() => {
@@ -59,7 +57,10 @@ const App = () => {
         const db = firebase.firestore();
         const userRef = await db.collection("users").doc(user.uid).get();
         const userData = userRef.data();
-        dispatch({type: "USER_UPDATED", payload: userData});
+        dispatch({ type: "USER_UPDATED", payload: userData} );
+      }
+      else {
+        dispatch({ type: "USER_UPDATED", payload: null });
       }
     });
   }, [dispatch]);
