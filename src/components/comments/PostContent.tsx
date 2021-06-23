@@ -154,7 +154,7 @@ const PostContent =
       <CommentsWrapper>
         {authState.user ? (
           <CreateCommentWrapper>
-            <CommentAs>Comment as Username</CommentAs>
+            <CommentAs>Comment as {authState.user.username}</CommentAs>
             <InputCommentContainer
               ref={commentFocusRef}
               focus={createCommentFocus}

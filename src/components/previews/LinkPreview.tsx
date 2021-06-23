@@ -19,11 +19,17 @@ const LinkPreview = ({ url, preview }: LinkPreviewProps) => {
     }
   }, [preview]);
 
+  const getClickableLink = (link: string) => {
+    return link.startsWith("http://") || link.startsWith("https://") ?
+      link
+      : `http://${link}`;
+  };
+
   return (
     <>
       <LinkWrapper>
         <a
-          href={url}
+          href={getClickableLink(url)}
           target="_blank"
           rel="noreferrer"
           onClick={(e) => e.stopPropagation()}
@@ -36,7 +42,7 @@ const LinkPreview = ({ url, preview }: LinkPreviewProps) => {
         img={preview ? img : "none"}
         onClick={(e: { stopPropagation: () => void; }) => {
           e.stopPropagation();
-          window.open(url, "_blank");
+          window.open(getClickableLink(url), "_blank");
         }}
       >
         <FiExternalLink />
